@@ -30,6 +30,7 @@ export default function CourseRoutes(app) {
 
   app.get("/api/courses", (req, res) => {
     const courses = Database.courses;
+    console.log("In api/courses")
     res.send(courses);
   });
 }

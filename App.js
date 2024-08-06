@@ -17,5 +17,9 @@ app.get("/", (req, res) => {
 ModuleRoutes(app); 
 CourseRoutes(app); 
 AssignmentRoutes(app);             
-Lab5(app);                          // express instance
-app.listen(4000);
+Lab5(app);     
+                     // express instance
+const port = process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});

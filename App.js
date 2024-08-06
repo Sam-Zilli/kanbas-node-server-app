@@ -13,6 +13,8 @@ app.get("/", (req, res) => {
     res.send("Yay it worked!");
   });
 
+console.log("BACKEND RUNNING!")
+
 
 ModuleRoutes(app); 
 CourseRoutes(app); 

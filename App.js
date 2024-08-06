@@ -8,6 +8,12 @@ import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
 const app = express();
 app.use(cors());                    // make sure cors is used right after creating the app
 app.use(express.json());  
+
+app.get("/", (req, res) => {
+    res.send("Yay it worked!");
+  });
+
+
 ModuleRoutes(app); 
 CourseRoutes(app); 
 AssignmentRoutes(app);             

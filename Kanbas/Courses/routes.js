@@ -2,17 +2,20 @@ import * as dao from "./dao.js";
 
 export default function CourseRoutes(app) {
   const findAllCourses = async (req, res) => {
+    console.log('Request received:', req.method, req.url);
     try {
-      const courses = await dao.findAllCourses(); 
+      console.log('Calling DAO to fetch courses...');
+      const courses = await dao.findAllCourses();
+      console.log('Courses retrieved:', courses);
       res.send(courses);
     } catch (error) {
+      console.error('Error fetching courses:', error);
       res.status(500).send({ message: 'Internal server error', error });
     }
   };
 
   app.get("/api/courses", findAllCourses);
 }
-
 
 
 

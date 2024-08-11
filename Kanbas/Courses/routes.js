@@ -49,23 +49,24 @@ export default function CourseRoutes(app) {
     }
   };
 
-  // Update a course by ID
   const updateCourseById = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params; // Extract ID from URL parameters
     console.log('Request received to update course ID:', id);
     try {
-      // console.log('Updating course with data:', req.body);
+      // Check if ID is valid
+      if (!id) {
+        throw new Error('Course ID is required');
+      }
       const updatedCourse = await dao.updateCourseById(id, req.body, { new: true, runValidators: true });
       if (updatedCourse) {
-        // console.log('Course updated successfully:', updatedCourse);
         res.json(updatedCourse);
       } else {
         console.log('Course not found for ID:', id);
         res.status(404).send({ message: 'Course not found' });
       }
     } catch (error) {
-      console.error('Error updating course:', error);
-      res.status(500).send({ message: 'Internal server error', error });
+      console.error('Error updating course:', error.message);
+      res.status(500).send({ message: 'Internal server error', error: error.message });
     }
   };
 

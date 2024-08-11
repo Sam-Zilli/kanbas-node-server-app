@@ -1,9 +1,10 @@
 import model from "./model.js";
 
 export const createUser = (user) => {
-  delete user._id;
+  delete user._id
   return model.create(user);
-};
+}
+
 
 export const findAllUsers = () => model.find();
 
@@ -17,8 +18,7 @@ export const findUserByCredentials = (username, password) =>
 
 export const findUsersByRole = (role) => model.find({ role: role }); // or just model.find({ role })
 
-export const updateUser = (userId, user) =>
-  model.updateOne({ _id: userId }, { $set: user });
+export const updateUser = (userId, user) => model.updateOne({ _id: userId }, { $set: user });
 
 export const findUsersByPartialName = (partialName) => {
   const regex = new RegExp(partialName, "i"); // 'i' makes it case-insensitive

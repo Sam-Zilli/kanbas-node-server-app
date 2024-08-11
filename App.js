@@ -40,7 +40,7 @@ app.use(session(sessionOptions));
 app.use(express.json());  
 
 app.get("/", (req, res) => {
-    res.send("Yay it worked!");
+    res.send("Yay it worked!sdfsfsdf");
   });
 
 console.log("BACKEND RUNNING!")

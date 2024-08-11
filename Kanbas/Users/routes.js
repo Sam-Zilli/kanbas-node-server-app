@@ -4,14 +4,10 @@ let currentUser = null;
 export default function UserRoutes(app) {
 
   const createUser = async (req, res) => {
-    try {
-      const user = await dao.createUser(req.body);
-      res.json(user);
-    } catch (error) {
-      console.error("Error creating user:", error);
-      res.status(500).json({ message: "Error creating user" });
-    }
+    const user = await dao.createUser(req.body);
+    res.json(user);
   };
+
 
   const deleteUser = async (req, res) => {
     const status = await dao.deleteUser(req.params.userId);

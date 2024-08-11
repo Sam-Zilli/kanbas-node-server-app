@@ -8,7 +8,6 @@ export const findUserById = (userId) => User.findById(userId);
 
 export const findUserByUsername = (username) => User.findOne({ username: username });
 
-
 export const findUserByCredentials = async (username, password) => {
   console.log("IN FIND USER BY CREDENTIALS");
 
@@ -35,6 +34,5 @@ export const findUsersByPartialName = (partialName) => {
     $or: [{ firstName: { $regex: regex } }, { lastName: { $regex: regex } }],
   });
 };
-
 
 export const deleteUser = (userId) => User.deleteOne({ _id: userId });

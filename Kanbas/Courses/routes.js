@@ -33,28 +33,24 @@ export default function CourseRoutes(app) {
     }
   };
 
-
-  // POST endpoint to create a new course
   const createCourse = async (req, res) => {
-    try {
-      const course = new Course(req.body);
-      const savedCourse = await course.save();
-      res.status(201).json(savedCourse);
-    } catch (error) {
-      console.error('Error creating course:', error);
-      res.status(500).send({ message: 'Internal server error', error });
-    }
+    const course = await dao.createCourse(req.body);
+    res.json(user);
   };
 
-
   // PUT endpoint to update a course by ID
-  const updateCourse = async (req, res) => {
+  const updateCourseById = async (req, res) => {
+    console.log("Update Course 1")
     const { id } = req.params;
+    console.log("Update Course 2. id: ", id)
     try {
-      const updatedCourse = await Course.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+      console.log("Updated Course 3")
+      const updatedCourse = await dao.updateCourseById(id, req.body, { new: true, runValidators: true });
+      console.log("Updated Course Info: ", updatedCourse)
       if (!updatedCourse) {
         return res.status(404).send({ message: 'Course not found' });
       }
+      console.log("Updated Course 4")
       res.json(updatedCourse);
     } catch (error) {
       console.error('Error updating course:', error);
@@ -66,11 +62,11 @@ export default function CourseRoutes(app) {
     const deleteCourse = async (req, res) => {
       const { id } = req.params;
       try {
-        const deletedCourse = await Course.findByIdAndDelete(id);
+        const deletedCourse = await dao.deleteCourseById(id);
         if (!deletedCourse) {
           return res.status(404).send({ message: 'Course not found' });
         }
-        res.sendStatus(204); // No content
+        res.sendStatus(204);
       } catch (error) {
         console.error('Error deleting course:', error);
         res.status(500).send({ message: 'Internal server error', error });
@@ -81,6 +77,6 @@ export default function CourseRoutes(app) {
   app.get("/api/courses", findAllCourses);
   app.get("/api/courses/:id", findCourseById); 
   app.post("/api/courses", createCourse);
-  app.put("/api/courses/:id", updateCourse);
+  app.put("/api/courses/:id", updateCourseById);
   app.delete("/api/courses/:id", deleteCourse);
 }

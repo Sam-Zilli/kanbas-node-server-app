@@ -27,6 +27,7 @@ export default function ModuleRoutes(app) {
   const createModule = async (req, res) => {
     const moduleData = { ...req.body, course: req.params.cid };
     try {
+      console.log("in routes.js createModule. moduleData: ", moduleData)
       const newModule = await dao.createModule(moduleData);
       res.status(201).json(newModule);
     } catch (err) {

@@ -15,75 +15,73 @@ export default function CourseRoutes(app) {
     }
   };
 
+
+  // GET course by ID
+  const findCourseById = async (req, res) => {
+    const { id } = req.params;
+    try {
+      console.log('Calling DAO to fetch course by ID...');
+      const course = await dao.findCourseById(id);
+      if (course) {
+        console.log('Course retrieved:', course);
+        res.json(course);
+      } else {
+        res.status(404).send({ message: 'Course not found' });
+      }
+    } catch (error) {
+      console.error('Error fetching course by ID:', error);
+      res.status(500).send({ message: 'Internal server error', error });
+    }
+  };
+
+
+  // POST endpoint to create a new course
+  const createCourse = async (req, res) => {
+    try {
+      const course = new Course(req.body);
+      const savedCourse = await course.save();
+      res.status(201).json(savedCourse);
+    } catch (error) {
+      console.error('Error creating course:', error);
+      res.status(500).send({ message: 'Internal server error', error });
+    }
+  };
+
+
+  // PUT endpoint to update a course by ID
+  const updateCourse = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const updatedCourse = await Course.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+      if (!updatedCourse) {
+        return res.status(404).send({ message: 'Course not found' });
+      }
+      res.json(updatedCourse);
+    } catch (error) {
+      console.error('Error updating course:', error);
+      res.status(500).send({ message: 'Internal server error', error });
+    }
+  };
+
+    // DELETE endpoint to delete a course by ID
+    const deleteCourse = async (req, res) => {
+      const { id } = req.params;
+      try {
+        const deletedCourse = await Course.findByIdAndDelete(id);
+        if (!deletedCourse) {
+          return res.status(404).send({ message: 'Course not found' });
+        }
+        res.sendStatus(204); // No content
+      } catch (error) {
+        console.error('Error deleting course:', error);
+        res.status(500).send({ message: 'Internal server error', error });
+      }
+    };
+  
+
   app.get("/api/courses", findAllCourses);
+  app.get("/api/courses/:id", findCourseById); 
+  app.post("/api/courses", createCourse);
+  app.put("/api/courses/:id", updateCourse);
+  app.delete("/api/courses/:id", deleteCourse);
 }
-
-
-
-
-
-// TEST CODE
-//import mongoose from 'mongoose';
-// import Course from './model.js'
-// export default function CourseRoutes(app) {
-//   const findAllCourses = async (req, res) => {
-//     try {
-//       // Use DAO method or directly query the database
-//       // const courses = await dao.findAllCourses(); 
-//       const newCourse = new Course({
-//         _id: 'CS101',
-//         name: 'Introduction to Computer Science',
-//         number: 'CS101',
-//         startDate: new Date('2024-09-01'),
-//         endDate: new Date('2024-12-15'),
-//         department: 'Computer Science',
-//         credits: 4,
-//         description: 'This course introduces fundamental concepts of computer science and programming.'
-//       });
-//       const courses = [newCourse]; // For testing; replace with actual database query
-//       res.send(courses);
-//     } catch (error) {
-//       res.status(500).send({ message: 'Internal server error', error });
-//     }
-//   };
-
-//   app.get("/api/courses", findAllCourses);
-// }
-
-// import Database from "../Database/index.js";
-
-// export default function CourseRoutes(app) {
-
-//   app.put("/api/courses/:id", (req, res) => {
-//     const { id } = req.params;
-//     const course = req.body;
-//     Database.courses = Database.courses.map((c) =>
-//       c._id === id ? { ...c, ...course } : c
-//     );
-//     res.sendStatus(204);
-//   });
-
-
-//   app.delete("/api/courses/:id", (req, res) => {
-//     const { id } = req.params;
-//     Database.courses = Database.courses.filter((c) => c._id !== id);
-//     res.sendStatus(204);
-//   });
-
-
-//   app.post("/api/courses", (req, res) => {
-//     const course = { ...req.body,
-//       _id: new Date().getTime().toString() };
-//     Database.courses.push(course);
-//     res.send(course);
-//   });
-
-
-
-//   app.get("/api/courses", (req, res) => {
-//     const courses = Database.courses;
-//     console.log("In api/courses")
-//     res.send(courses);
-//   });
-// }
-

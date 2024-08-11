@@ -20,10 +20,24 @@ app.use(cors({
 );
 
 const sessionOptions = {
-  secret: "any string",
+  secret: process.env.SESSION_SECRET || "kanbas",
   resave: false,
   saveUninitialized: false,
 };
+
+
+// if NOT developing
+if (process.env.NODE_ENV !== "development") {
+  sessionOptions.proxy = true;
+  sessionOptions.cookie = {
+    sameSite: "none",
+    secure: true,
+    domain: process.env.NODE_SERVER_DOMAIN,
+  };
+}
+
+
+
 app.use(
   session(sessionOptions)
 );

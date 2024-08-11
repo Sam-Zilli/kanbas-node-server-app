@@ -1,14 +1,10 @@
 import * as dao from "./dao.js";
 
 export default function UserRoutes(app) {
+
   const createUser = async (req, res) => {
     const user = await dao.createUser(req.body);
     res.json(user);
-  };
-
-  const deleteUser = async (req, res) => {
-    const status = await dao.deleteUser(req.params.userId);
-    res.json(status);
   };
 
   const findAllUsers = async (req, res) => {
@@ -29,9 +25,16 @@ export default function UserRoutes(app) {
     return;
   };
 
+
   const findUserById = async (req, res) => {
     const user = await dao.findUserById(req.params.userId);
     res.json(user);
+  };
+
+
+  const deleteUser = async (req, res) => {
+    const status = await dao.deleteUser(req.params.userId);
+    res.json(status);
   };
 
   const updateUser = async (req, res) => {
@@ -52,15 +55,31 @@ export default function UserRoutes(app) {
   };
 
   const signin = async (req, res) => {
+    console.log("routes.js SIGNIN 0");
     const { username, password } = req.body;
-    const currentUser = await dao.findUserByCredentials(username, password);
-    if (currentUser) {
-      req.session["currentUser"] = currentUser;
-      res.json(currentUser);
-    } else {
-      res.status(401).json({ message: "Unable to login. Try again later." });
+    console.log("username: ", username);
+    console.log("pass: ", password);
+    console.log("routes.js SIGNIN 1");
+  
+    try {
+      const currentUser = await dao.findUserByCredentials(username, password);
+      console.log("routes.js SIGNIN 2");
+  
+      if (currentUser) {
+        console.log("routes.js SIGNIN 3");
+        req.session["currentUser"] = currentUser;
+        console.log("req.session for current user HSOULD be set?")
+        res.json(currentUser);
+      } else {
+        console.log("Here - User not found or password mismatch");
+        res.status(401).json({ message: "Unable to login. Try again later." });
+      }
+    } catch (error) {
+      console.error("Error in signin route:", error);
+      res.status(500).json({ message: "Server error" });
     }
   };
+  
 
   const signout = (req, res) => {
     req.session.destroy();
@@ -71,6 +90,7 @@ export default function UserRoutes(app) {
     const currentUser = req.session["currentUser"];
     console.log("Current User is: ", currentUser)
     if (!currentUser) {
+      console.log("In routes.js profile: no user :(")
       res.sendStatus(401);
       return;
     }

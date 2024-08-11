@@ -11,53 +11,50 @@ import UserRoutes from "./Kanbas/Users/routes.js";
 import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
 
-
-mongoose.connect(process.env.MONGO_CONNECTION_STRING)
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
-
-
 const app = express();
 
-app.use(
-  cors({
-    credentials: true,
-    origin: process.env.NETLIFY_URL || "http://localhost:3000",
-  })
- );
- 
-
- const sessionOptions = {
-  secret: process.env.SESSION_SECRET || "kanbas",
-  resave: false,
-  saveUninitialized: false,
+app.use(cors({
+  credentials: true,
+  origin: process.env.NETLIFY_URL || "http://localhost:3000",
+})
+);
+const sessionOptions = {
+secret: process.env.SESSION_SECRET || "kanbas",
+resave: false,
+saveUninitialized: false,
 };
 if (process.env.NODE_ENV !== "development") {
-  sessionOptions.proxy = true;
-  sessionOptions.cookie = {
-    sameSite: "none",
-    secure: true,
-    domain: process.env.NODE_SERVER_DOMAIN,
-  };
+sessionOptions.proxy = true;
+sessionOptions.cookie = {
+  sameSite: "none",
+  secure: true,
+  domain: process.env.NODE_SERVER_DOMAIN,
+};
 }
 app.use(session(sessionOptions));
 
-        
-app.use(express.json());  
+
+app.use(express.json());
+
+
+
+mongoose
+  .connect(process.env.MONGO_CONNECTION_STRING)
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
 app.get("/", (req, res) => {
-    res.send("Yay it worked!sdfsfsdf");
-  });
+  res.send("Yay it worked!");
+});
 
-console.log("BACKEND RUNNING!")
+console.log("BACKEND RUNNING!");
 
-ModuleRoutes(app); 
-CourseRoutes(app); 
-AssignmentRoutes(app);     
-UserRoutes(app);        
-Lab5(app);     
-                     // express instance
+ModuleRoutes(app);
+CourseRoutes(app);
+AssignmentRoutes(app);
+UserRoutes(app);
+Lab5(app);
+// express instance
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

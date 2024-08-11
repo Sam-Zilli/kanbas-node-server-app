@@ -2,29 +2,32 @@ import * as dao from "./dao.js";
 
 export default function CourseRoutes(app) {
 
+  // Retrieve all courses
   const findAllCourses = async (req, res) => {
     console.log('Request received:', req.method, req.url);
     try {
-      console.log('Calling DAO to fetch courses...');
+      console.log('Calling DAO to fetch all courses...');
       const courses = await dao.findAllCourses();
-    res.json(courses);
+      // console.log('Courses fetched successfully:', courses);
+      res.json(courses);
     } catch (error) {
-      console.error('Error fetching courses:', error);
+      console.error('Error fetching all courses:', error);
       res.status(500).send({ message: 'Internal server error', error });
     }
   };
 
-
-  // GET course by ID
+  // Retrieve course by ID
   const findCourseById = async (req, res) => {
     const { id } = req.params;
+    console.log('Request received for course ID:', id);
     try {
       console.log('Calling DAO to fetch course by ID...');
       const course = await dao.findCourseById(id);
       if (course) {
-        console.log('Course retrieved:', course);
+        // console.log('Course retrieved:', course);
         res.json(course);
       } else {
+        console.log('Course not found for ID:', id);
         res.status(404).send({ message: 'Course not found' });
       }
     } catch (error) {
@@ -33,46 +36,57 @@ export default function CourseRoutes(app) {
     }
   };
 
+  // Create a new course
   const createCourse = async (req, res) => {
-    const course = await dao.createCourse(req.body);
-    res.json(user);
+    console.log('Creating new course with data:', req.body);
+    try {
+      const course = await dao.createCourse(req.body);
+      // console.log('Course created successfully:', course);
+      res.status(201).json(course);
+    } catch (error) {
+      console.error('Error creating course:', error);
+      res.status(500).send({ message: 'Internal server error', error });
+    }
   };
 
-  // PUT endpoint to update a course by ID
+  // Update a course by ID
   const updateCourseById = async (req, res) => {
-    console.log("Update Course 1")
     const { id } = req.params;
-    console.log("Update Course 2. id: ", id)
+    console.log('Request received to update course ID:', id);
     try {
-      console.log("Updated Course 3")
+      // console.log('Updating course with data:', req.body);
       const updatedCourse = await dao.updateCourseById(id, req.body, { new: true, runValidators: true });
-      console.log("Updated Course Info: ", updatedCourse)
-      if (!updatedCourse) {
-        return res.status(404).send({ message: 'Course not found' });
+      if (updatedCourse) {
+        // console.log('Course updated successfully:', updatedCourse);
+        res.json(updatedCourse);
+      } else {
+        console.log('Course not found for ID:', id);
+        res.status(404).send({ message: 'Course not found' });
       }
-      console.log("Updated Course 4")
-      res.json(updatedCourse);
     } catch (error) {
       console.error('Error updating course:', error);
       res.status(500).send({ message: 'Internal server error', error });
     }
   };
 
-    // DELETE endpoint to delete a course by ID
-    const deleteCourse = async (req, res) => {
-      const { id } = req.params;
-      try {
-        const deletedCourse = await dao.deleteCourseById(id);
-        if (!deletedCourse) {
-          return res.status(404).send({ message: 'Course not found' });
-        }
+  // Delete a course by ID
+  const deleteCourse = async (req, res) => {
+    const { id } = req.params;
+    console.log('Request received to delete course ID:', id);
+    try {
+      const deletedCourse = await dao.deleteCourseById(id);
+      if (deletedCourse) {
+        // console.log('Course deleted successfully:', deletedCourse);
         res.sendStatus(204);
-      } catch (error) {
-        console.error('Error deleting course:', error);
-        res.status(500).send({ message: 'Internal server error', error });
+      } else {
+        console.log('Course not found for ID:', id);
+        res.status(404).send({ message: 'Course not found' });
       }
-    };
-  
+    } catch (error) {
+      console.error('Error deleting course:', error);
+      res.status(500).send({ message: 'Internal server error', error });
+    }
+  };
 
   app.get("/api/courses", findAllCourses);
   app.get("/api/courses/:id", findCourseById); 

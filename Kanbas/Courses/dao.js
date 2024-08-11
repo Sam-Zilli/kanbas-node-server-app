@@ -28,6 +28,13 @@ export const findCourseById = async (id) => {
 // Create a new course
 export const createCourse = async (courseData) => {
   try {
+    if (courseData._id) {
+      const existingCourse = await Course.findById(courseData._id);
+      if (existingCourse) {
+        await Course.findByIdAndDelete(courseData._id);
+        console.log(`Deleted existing course with ID: ${courseData._id}`);
+      }
+    }
     const newCourse = new Course(courseData);
     return await newCourse.save();
   } catch (err) {
@@ -35,6 +42,22 @@ export const createCourse = async (courseData) => {
     throw err;
   }
 };
+
+
+// // Create a new course POST
+// export const createCourse = async (courseData) => {
+//   try {
+//     console.log("In createCourse 1")
+//     const newCourse = new Course(courseData);
+//     console.log("In createCourse 2")
+//     return await newCourse.save();
+//   } catch (err) {
+//     console.error('Error creating course:', err);
+//     throw err;
+//   }
+// };
+
+//export const createUser = (user) => User.create(user);
 
 // Update a course by ID
 export const updateCourseById = async (id, courseData) => {

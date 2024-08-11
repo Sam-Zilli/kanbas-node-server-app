@@ -14,7 +14,9 @@ export default function ModuleRoutes(app) {
   };
 
   const updateModule = async (req, res) => {
+    console.log("in routes.js updateModule")
     const { mid } = req.params;
+    console.log(mid)
     try {
       const updatedModule = await dao.updateModuleById(mid, req.body);
       res.json(updatedModule);

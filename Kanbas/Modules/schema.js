@@ -11,6 +11,6 @@ const moduleSchema = new mongoose.Schema({
   description: { type: String, required: false },
   course: { type: String, required: true }, 
   lessons: [lessonSchema] 
-}, { collection: "modules" });
+});
 
 export default moduleSchema;

@@ -1,9 +1,10 @@
 import * as dao from "./dao.js";
-import mongoose from "mongoose";
+
 
 export default function ModuleRoutes(app) {
 
   const findModulesByCourseId = async (req, res) => {
+    console.log("routes.js findModulesByCourseId")
     const { cid } = req.params;
     try {
       const modules = await dao.findModulesByCourseId(cid);
@@ -13,14 +14,16 @@ export default function ModuleRoutes(app) {
       res.status(500).json({ error: err.message });
     }
   };
+
+
   const updateModule = async (req, res) => {
     const { mid } = req.params;
     try {
         console.log("In routes.js updateModule");
 
-        console.log("routes.js updateModule")
-
         const updatedModule = await dao.updateModuleById(mid, req.body);
+
+        console.log("after updatedModule created", updatedModule)
 
         res.json(updatedModule);
     } catch (err) {

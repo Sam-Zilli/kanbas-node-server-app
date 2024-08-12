@@ -2,17 +2,6 @@ import Module from './model.js';
 import Course from '../Courses/model.js'
 import mongoose from "mongoose";
 
-// export const findModulesByCourseId = async (courseId) => {
-//   try {
-//     console.log("dao.js findModulesBycourseId")
-//     return await Module.find({ course: courseId });
-//   } catch (err) {
-//     //console.error('Error fetching modules by course ID:', err);
-//     throw err;
-//   }
-// };
-
-// TESTING
 export const findModulesByCourseId = async (courseId) => {
   try {
 
@@ -57,9 +46,11 @@ export const updateModuleById = async (mid, moduleData) => {
   try {
     console.log("in DAO updateModuleById")
 
-    const validObjectId = new mongoose.Types.ObjectId(mid);
-    const updatedModule = await Module.findByIdAndUpdate(validObjectId, moduleData, { new: true, runValidators: true });
-    
+    const oldModule = await Module.findById(mid)
+    console.log("Old Module: ", oldModule) 
+
+
+    const updatedModule = await Module.findByIdAndUpdate(mid, moduleData, { new: true, runValidators: true });   
     console.log("dao after updatedModule")
     
     if (!updatedModule) {

@@ -9,17 +9,17 @@ export const findUserById = (userId) => User.findById(userId);
 export const findUserByUsername = (username) => User.findOne({ username: username });
 
 export const findUserByCredentials = async (username, password) => {
-  console.log("IN FIND USER BY CREDENTIALS");
+  //console.log("IN FIND USER BY CREDENTIALS");
 
   try {
     const user = await User.findOne({ username });
     if (user && user.password === password) {
-      console.log("Returning a user: ", user)
+      //console.log("Returning a user: ", user)
       return user;
     }
     return null;
   } catch (error) {
-    console.error("Error in findUserByCredentials:", error);
+    //console.error("Error in findUserByCredentials:", error);
     throw error;
   }
 };

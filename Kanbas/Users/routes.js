@@ -55,30 +55,18 @@ export default function UserRoutes(app) {
   };
 
   const signin = async (req, res) => {
-    console.log("routes.js SIGNIN 0/4");
     const { username, password } = req.body;
-    console.log("username: ", username);
-    console.log("pass: ", password);
-    console.log("routes.js SIGNIN 1/4");
   
     try {
       const currentUser = await dao.findUserByCredentials(username, password);
-      console.log("routes.js SIGNIN 2/4");
   
       if (currentUser) {
-        console.log("routes.js SIGNIN 3/4");
         req.session["currentUser"] = currentUser;
-        console.log("req.session set!");
-        console.log("Set as: ", req.session["currentUser"]);
-        console.log("JSON: ", res.json);
-        console.log("routes.js SIGNIN 4/4");
         res.json(currentUser);
       } else {
-        console.log("Here - User not found or password mismatch");
         res.status(401).json({ message: "Unable to login. Try again later." });
       }
     } catch (error) {
-      console.error("Error in signin route:", error);
       res.status(500).json({ message: "Server error" });
     }
   };
@@ -90,17 +78,11 @@ export default function UserRoutes(app) {
   };
 
   const profile = (req, res) => {
-    console.log("Route.js profile 0")
     const currentUser = req.session["currentUser"];
-    console.log("Route.js profile 1")
-    console.log("Current User is: ", currentUser)
-    console.log("Route.js profile 2")
     if (!currentUser) {
-      console.log("In routes.js profile: no user :(")
       res.sendStatus(401);
       return;
     }
-    console.log("Route.js profile 3 About to return ")
     res.json(currentUser);
   };
 

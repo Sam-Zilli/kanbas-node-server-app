@@ -57,7 +57,7 @@ export const updateModuleById = async (mid, moduleData) => {
   try {
     console.log("in DAO updateModuleById")
 
-    const oldModule = await Module.findById(mid)
+    // const oldModule = await Module.findById(mid)
     // console.log("Old Module: ", oldModule) 
 
 

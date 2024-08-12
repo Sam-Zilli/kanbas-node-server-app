@@ -5,7 +5,7 @@ export const findAllCourses = async () => {
   try {
     console.log("in findAllCourses...")
     const courses = await Course.find();
-    console.log("Courses: ", courses)
+    // console.log("Courses: ", courses)
     return courses;
   } catch (err) {
     console.error('Error fetching courses:', err);

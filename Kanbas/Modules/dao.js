@@ -34,7 +34,18 @@ export const findModuleById = async (id) => {
 
 export const createModule = async (moduleData) => {
   try {
+    const course = await Course.findById(moduleData.course);
+
+    if (!course) {
+      throw new Error('Course not found');
+    }
+    console.log("createModule 1, Course: ", course)
+    const courseNumber = course.number;
+    console.log("createModule 2, Course: ", courseNumber)
+    moduleData.course = courseNumber;
+    console.log("createModule 3, moduleData: ", moduleData)
     const newModule = new Module(moduleData);
+    console.log("in doa createModule: ", newModule)
     return await newModule.save();
   } catch (err) {
     console.error('Error creating module:', err);
@@ -47,7 +58,7 @@ export const updateModuleById = async (mid, moduleData) => {
     console.log("in DAO updateModuleById")
 
     const oldModule = await Module.findById(mid)
-    console.log("Old Module: ", oldModule) 
+    // console.log("Old Module: ", oldModule) 
 
 
     const updatedModule = await Module.findByIdAndUpdate(mid, moduleData, { new: true, runValidators: true });   

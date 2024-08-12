@@ -8,7 +8,7 @@ export default function CourseRoutes(app) {
     try {
       console.log('Calling DAO to fetch all courses...');
       const courses = await dao.findAllCourses();
-      console.log(courses)
+      //console.log(courses)
       // console.log('Courses fetched successfully:', courses);
       res.json(courses);
     } catch (error) {

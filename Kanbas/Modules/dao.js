@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 export const findModulesByCourseId = async (courseId) => {
   try {
 
-    console.log("dao.js findModulesByCourseId");
+    //console.log("dao.js findModulesByCourseId");
 
     const course = await Course.findById(courseId);
 

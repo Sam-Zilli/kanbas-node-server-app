@@ -12,14 +12,7 @@ import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
 
 
-
-
-// mongoose
-//   .connect(process.env.MONGO_CONNECTION_STRING)
-//   .then(() => console.log("MongoDB connected successfully"))
-//   .catch((err) => console.error("MongoDB connection error:", err));
-
-const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/final-project"
 mongoose.connect(CONNECTION_STRING).then(() => console.log("MongoDB Connection made")).catch((err) => console.error("MongoDB connection error:", err));;
 const app = express()
 
@@ -31,10 +24,8 @@ app.use(
 );
 app.use(express.json());
 
-
-
 const sessionOptions = {
-  secret: process.env.SESSION_SECRET || "kanbas",
+  secret: process.env.SESSION_SECRET || "final-project",
   resave: false,
   saveUninitialized: false,
 };

@@ -7,9 +7,29 @@ export default function CourseRoutes(app) {
     // console.log('Request received:', req.method, req.url);
     try {
       console.log('Calling DAO to fetch all courses...');
-      const courses = await dao.findAllCourses();
+      // const courses = await dao.findAllCourses();
       //console.log(courses)
       // console.log('Courses fetched successfully:', courses);
+      
+      const courses = [
+        {
+          "number": "RS101",
+          "name": "Rocket Propulsion",
+          "startDate": "2023-01-10",
+          "endDate": "2023-05-15",
+          "department": "D123",
+          "credits": 4,
+          "description": "This course provides an in-depth study of the fundamentals of rocket propulsion, covering topics such as propulsion theory, engine types, fuel chemistry, and the practical applications of rocket technology. Designed for students with a strong background in physics and engineering, the course includes both theoretical instruction and hands-on laboratory work"
+        },
+        {
+          "number": "RS102",
+          "name": "Aerodynamics",
+          "startDate": "2023-01-10",
+          "endDate": "2023-05-15",
+          "department": "D123",
+          "credits": 3,
+          "description": "This course offers a comprehensive exploration of aerodynamics, focusing on the principles and applications of airflow and its effects on flying objects. Topics include fluid dynamics, airfoil design, lift and drag forces, and the aerodynamic considerations in aircraft design. The course blends theoretical learning with practical applications, suitable for students pursuing a career in aeronautics or astronautics engineering."
+        } ]
       res.json(courses);
     } catch (error) {
       console.error('Error fetching all courses:', error);

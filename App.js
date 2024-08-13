@@ -26,7 +26,7 @@ const app = express()
 app.use(
     cors({
         credentials: true,
-        origin: process.env.NETLIFY_URL || "http://localhost:3000",
+        origin: process.env.NETLIFY_URL || "https://66babee47420600008b977be--glistening-fox-cc1c23.netlify.app" || "http://localhost:3000",
     })
 );
 
@@ -79,21 +79,21 @@ app.listen(port, () => {
 
 
 
-mongoose.connection.on('connected', () => {
-  console.log(`Mongoose connected to ${process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"}`);
-});
+// mongoose.connection.on('connected', () => {
+//   console.log(`Mongoose connected to ${process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"}`);
+// });
 
-mongoose.connection.on('error', (err) => {
-  console.error('Mongoose connection error:', err);
-});
+// mongoose.connection.on('error', (err) => {
+//   console.error('Mongoose connection error:', err);
+// });
 
-mongoose.connection.on('disconnected', () => {
-  console.log('Mongoose disconnected');
-});
+// mongoose.connection.on('disconnected', () => {
+//   console.log('Mongoose disconnected');
+// });
 
-app.get('/api/debug-info', (req, res) => {
-  res.json({
-    databaseName: "kanbas",
-    connectionString: process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
-  });
-});
+// app.get('/api/debug-info', (req, res) => {
+//   res.json({
+//     databaseName: "kanbas",
+//     connectionString: process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
+//   });
+// });

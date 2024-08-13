@@ -42,7 +42,6 @@ const sessionOptions = {
 
 // if NOT developing
 if (process.env.NODE_ENV !== "development") {
-  console.log("=============== NOT IN DEVELOPMENT ===========")
   sessionOptions.proxy = true;
   sessionOptions.cookie = {
     sameSite: "none",
@@ -63,7 +62,7 @@ app.get("/", (req, res) => {
   res.send("Yay it worked!");
 });
 
-//console.log("BACKEND RUNNING!");
+
 ModuleRoutes(app);
 CourseRoutes(app);
 AssignmentRoutes(app);
@@ -72,28 +71,4 @@ Lab5(app);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
 });
-
-
-
-
-
-// mongoose.connection.on('connected', () => {
-//   console.log(`Mongoose connected to ${process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"}`);
-// });
-
-// mongoose.connection.on('error', (err) => {
-//   console.error('Mongoose connection error:', err);
-// });
-
-// mongoose.connection.on('disconnected', () => {
-//   console.log('Mongoose disconnected');
-// });
-
-// app.get('/api/debug-info', (req, res) => {
-//   res.json({
-//     databaseName: "kanbas",
-//     connectionString: process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas"
-//   });
-// });

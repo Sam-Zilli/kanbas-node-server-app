@@ -3,9 +3,7 @@ import Course from "./model.js"; // Import the Mongoose model
 // Fetch all courses
 export const findAllCourses = async () => {
   try {
-    //console.log("in findAllCourses...")
     const courses = await Course.find();
-    // console.log("Courses: ", courses)
     return courses;
   } catch (err) {
     console.error('Error fetching courses:', err);
@@ -34,7 +32,6 @@ export const createCourse = async (courseData) => {
       const existingCourse = await Course.findById(courseData._id);
       if (existingCourse) {
         await Course.findByIdAndDelete(courseData._id);
-        console.log(`Deleted existing course with ID: ${courseData._id}`);
       }
     }
     const newCourse = new Course(courseData);
@@ -45,21 +42,6 @@ export const createCourse = async (courseData) => {
   }
 };
 
-
-// // Create a new course POST
-// export const createCourse = async (courseData) => {
-//   try {
-//     console.log("In createCourse 1")
-//     const newCourse = new Course(courseData);
-//     console.log("In createCourse 2")
-//     return await newCourse.save();
-//   } catch (err) {
-//     console.error('Error creating course:', err);
-//     throw err;
-//   }
-// };
-
-//export const createUser = (user) => User.create(user);
 
 // Update a course by ID
 export const updateCourseById = async (id, courseData) => {

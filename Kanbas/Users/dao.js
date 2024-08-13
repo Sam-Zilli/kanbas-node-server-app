@@ -11,7 +11,6 @@ export const findUserByUsername = (username) => User.findOne({ username: usernam
 export const findUserByCredentials = async (username, password) => {
   try {
     const user = await User.findOne({ username});
-    console.log("user is: ", user)
     if (user && user.password === password) {
       //console.log("Returning a user: ", user)
       return user;

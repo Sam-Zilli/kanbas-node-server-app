@@ -29,6 +29,7 @@ app.use(
         origin: process.env.NETLIFY_URL || "http://localhost:3000",
     })
 );
+app.use(express.json());
 
 
 
@@ -63,7 +64,6 @@ app.get("/", (req, res) => {
 });
 
 //console.log("BACKEND RUNNING!");
-app.use(express.json());
 ModuleRoutes(app);
 CourseRoutes(app);
 AssignmentRoutes(app);

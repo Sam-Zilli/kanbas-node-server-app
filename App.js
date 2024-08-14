@@ -11,7 +11,6 @@ import UserRoutes from "./Kanbas/Users/routes.js";
 import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
 
-
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/final-project";
 mongoose.connect(CONNECTION_STRING).then(() => console.log("MongoDB Connection made")).catch((err) => console.error("MongoDB connection error:", err));;
 const app = express()

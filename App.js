@@ -12,17 +12,31 @@ import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
 
 
-const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/final-project"
-mongoose.connect(CONNECTION_STRING).then(() => console.log("MongoDB Connection made")).catch((err) => console.error("MongoDB connection error:", err));;
-const app = express()
 
-app.use(
-    cors({
-        credentials: true,
-        origin: process.env.NETLIFY_URL || "http://localhost:3000",
-    })
-);
-app.use(express.json());
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas";
+
+mongoose.connect(CONNECTION_STRING)
+  .then(async () => {
+    console.log("MongoDB Connection made");
+    console.log(CONNECTION_STRING)
+
+    const client = mongoose.connection.client;
+
+    // List all databases
+    const admin = client.db().admin();
+    const { databases } = await admin.listDatabases();
+
+    console.log("Databases and their collections:");
+
+    for (const dbInfo of databases) {
+      const dbName = dbInfo.name;
+      console.log(`\nDatabase: ${dbName}`);
+    }
+  })
+  .catch(err => console.error("MongoDB connection error:", err));
+
+const app = express();
+
 
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || "final-project",

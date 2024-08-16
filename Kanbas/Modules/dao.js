@@ -1,6 +1,5 @@
 import Module from './model.js'; 
 import Course from '../Courses/model.js'
-import mongoose from "mongoose";
 
 export const findModulesByCourseId = async (courseId) => {
   try {

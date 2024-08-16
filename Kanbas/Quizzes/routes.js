@@ -1,34 +1,65 @@
 import * as dao from "./dao.js";
 
-
 export default function QuizRoutes(app) {
 
     const findQuizzesByCourseId = async (req, res) => {
-        console.log("Routes.js")
+        console.log("Routes.js");
         const { cid } = req.params;
-        console.log(cid)
+        console.log(cid);
         try {
-          const quizzes = await dao.findQuizzesByCourseId(cid);
-          res.json(quizzes);
+            const quizzes = await dao.findQuizzesByCourseId(cid);
+            res.json(quizzes);
         } catch (err) {
-          res.status(500).json({ error: err.message });
+            res.status(500).json({ error: err.message });
         }
-      };
+    };
 
-      const createQuiz = async(req, res) => {
+    const createQuiz = async (req, res) => {
+        console.log("Routes.js - Create Quiz");
+        const { cid } = req.params;
+        const quizData = req.body;
+        try {
+            // Create the quiz with the provided data and course ID
+            const newQuiz = await dao.createQuiz({ ...quizData, course: cid });
+            res.status(201).json(newQuiz);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    };
 
-      }
-
-      const updateQuiz = async (req, res) => {
-
-      }
+    const updateQuiz = async (req, res) => {
+        console.log("Routes.js - Update Quiz");
+        const { cid, qid } = req.params;
+        const updatedData = req.body;
+        try {
+            // Update the quiz by ID and course ID
+            const updatedQuiz = await dao.updateQuiz(qid, updatedData);
+            if (!updatedQuiz) {
+                return res.status(404).json({ error: "Quiz not found" });
+            }
+            res.json(updatedQuiz);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    };
 
     const deleteQuiz = async (req, res) => {
+        console.log("Routes.js - Delete Quiz");
+        const { cid, qid } = req.params;
+        try {
+            // Delete the quiz by ID
+            const result = await dao.deleteQuiz(qid);
+            if (result.deletedCount === 0) {
+                return res.status(404).json({ error: "Quiz not found" });
+            }
+            res.status(204).end(); // No content
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    };
 
-    }
-
-app.get("/api/courses/:cid/quizzes", findQuizzesByCourseId);
-// app.post("/api/courses/:cid/quizzes", createQuiz);
-// app.put("/api/modules/:qid", updateQuiz);
-// app.delete("/api/modules/:qid", deleteQuiz);
+    app.get("/api/courses/:cid/quizzes", findQuizzesByCourseId);
+    app.post("/api/courses/:cid/quizzes", createQuiz);
+    app.put("/api/courses/:cid/quizzes/:qid", updateQuiz);
+    app.delete("/api/courses/:cid/quizzes/:qid", deleteQuiz);
 }

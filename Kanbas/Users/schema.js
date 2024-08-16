@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     lastName: String,
     dob: Date,
+    courses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
     role: {
       type: String,
       enum: ["STUDENT", "FACULTY", "ADMIN", "USER"],

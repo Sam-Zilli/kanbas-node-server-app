@@ -7,7 +7,7 @@ const questionSchema = new mongoose.Schema({
     default: "multiple_choice" 
   },
   name: { type: String, required: true },
-  description: { type: String, required: false},
+  description: { type: String, required: false },
   options: { type: [String], required: function() { return this.type === "multiple_choice"; } }, 
   correctAnswer: { 
     type: mongoose.Schema.Types.Mixed, 
@@ -18,8 +18,9 @@ const questionSchema = new mongoose.Schema({
 const quizSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, required: false },
-  course: { type: String, required: true }, 
-  questions: [questionSchema] 
+  course: { type: String, required: true },
+  questions: [questionSchema],
+  isPublished: { type: Boolean, default: false } // Added the published attribute
 });
 
 export default quizSchema;

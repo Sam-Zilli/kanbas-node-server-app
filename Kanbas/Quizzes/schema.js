@@ -20,7 +20,7 @@ const quizSchema = new mongoose.Schema({
   description: { type: String, required: false },
   course: { type: String, required: true },
   questions: [questionSchema],
-  isPublished: { type: Boolean, default: false } // Added the published attribute
+  isPublished: { type: Boolean, default: false } 
 });
 
 export default quizSchema;

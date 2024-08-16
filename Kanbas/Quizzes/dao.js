@@ -2,17 +2,30 @@ import Quiz from './model.js'
 import Course from '../Courses/model.js';
 
 export const findQuizzesByCourseId = async (courseId) => {
-    try {
-      const course = await Course.findById(courseId);
-      const quizzes = await Quiz.find({ course: course.number});
-  
-      return quizzes;
+  try {
+    console.log("in here!");
+    
+    // Find the course (to get course num) by its ID
+    const course = await Course.findById(courseId);
 
-    } catch (err) {
-      console.error('Error fetching quizzes:', err);
-      throw err;
+    console.log("Course is: ", course.number)
+    
+    if (!course) {
+      throw new Error("Course not found");
     }
-  };
+    
+    console.log(course);
+    
+    // Find quizzes associated with this course
+    const quizzes = await Quiz.find({ courseId: course.number });
+    
+    return quizzes;
+
+  } catch (err) {
+    console.error('Error fetching quizzes:', err);
+    throw err;
+  }
+};
 
   export const findQuizById = async (id) => {
     try {
@@ -46,9 +59,10 @@ export const findQuizzesByCourseId = async (courseId) => {
     }
   };
   
-  export const updateQuizById = async (qid, quizData) => {
+  export const updateQuiz = async (qid, quizData) => {
     try {
-  
+      console.log("dao.js updateQuiz")
+      console.log(quizData)
       const updatedQuiz= await Quiz.findByIdAndUpdate(qid, quizData, { new: true, runValidators: true });   
       if (!updatedQuiz) {
         throw new Error('Quiz not found');

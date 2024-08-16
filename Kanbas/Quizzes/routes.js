@@ -1,11 +1,14 @@
 import * as dao from "./dao.js";
 
+
 export default function QuizRoutes(app) {
 
     const findQuizzesByCourseId = async (req, res) => {
         const { cid } = req.params;
         try {
             const quizzes = await dao.findQuizzesByCourseId(cid);
+            console.log("----------------")
+            console.log(quizzes)
             res.json(quizzes);
         } catch (err) {
             res.status(500).json({ error: err.message });
@@ -25,10 +28,11 @@ export default function QuizRoutes(app) {
     };
 
     const updateQuiz = async (req, res) => {
+        console.log("routes.js UPDATE QUIZ")
         const { cid, qid } = req.params;
         const updatedData = req.body;
         try {
-            // Update the quiz by ID and course ID
+            console.log("routes.js updatequiz in try")
             const updatedQuiz = await dao.updateQuiz(qid, updatedData);
             if (!updatedQuiz) {
                 return res.status(404).json({ error: "Quiz not found" });

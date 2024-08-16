@@ -19,7 +19,10 @@ const quizSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, required: false },
   course: { type: String, required: true },
-  questions: [questionSchema],
+  points: { type: Number, required: true }, 
+  dueDate: { type: Date, required: false },
+  numberOfQuestions: { type: Number, default: function() { return this.questions.length; } },
+  studentScore: { type: Number, required: false }, 
   isPublished: { type: Boolean, default: false } 
 });
 

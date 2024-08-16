@@ -3,9 +3,7 @@ import * as dao from "./dao.js";
 export default function QuizRoutes(app) {
 
     const findQuizzesByCourseId = async (req, res) => {
-        console.log("Routes.js");
         const { cid } = req.params;
-        console.log(cid);
         try {
             const quizzes = await dao.findQuizzesByCourseId(cid);
             res.json(quizzes);
@@ -15,7 +13,6 @@ export default function QuizRoutes(app) {
     };
 
     const createQuiz = async (req, res) => {
-        console.log("Routes.js - Create Quiz");
         const { cid } = req.params;
         const quizData = req.body;
         try {
@@ -28,7 +25,6 @@ export default function QuizRoutes(app) {
     };
 
     const updateQuiz = async (req, res) => {
-        console.log("Routes.js - Update Quiz");
         const { cid, qid } = req.params;
         const updatedData = req.body;
         try {
@@ -44,7 +40,6 @@ export default function QuizRoutes(app) {
     };
 
     const deleteQuiz = async (req, res) => {
-        console.log("Routes.js - Delete Quiz");
         const { cid, qid } = req.params;
         try {
             // Delete the quiz by ID

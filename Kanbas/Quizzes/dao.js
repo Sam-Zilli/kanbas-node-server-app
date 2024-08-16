@@ -3,15 +3,8 @@ import Course from '../Courses/model.js';
 
 export const findQuizzesByCourseId = async (courseId) => {
     try {
-      console.log("dao.js")
       const course = await Course.findById(courseId);
       const quizzes = await Quiz.find({ course: course.number});
-      // const quizzes = await Quiz.find()
-      console.log("Quizzes: ")
-
-      // quizzes.forEach(quiz => {
-      //   console.log(`Quiz Course: ${quiz.course}`);
-      // });
   
       return quizzes;
 

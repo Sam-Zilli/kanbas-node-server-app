@@ -62,7 +62,7 @@ export const findQuizzesByCourseId = async (courseId) => {
   
   export const deleteQuizById = async (id) => {
     try {
-      const deletedQuiz = await QuizfindByIdAndDelete(id);
+      const deletedQuiz = await Quiz.findByIdAndDelete(id);
       if (!deletedQuiz) {
         throw new Error('Quiz not found');
       }

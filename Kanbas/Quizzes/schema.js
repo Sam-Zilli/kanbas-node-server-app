@@ -21,9 +21,17 @@ const quizSchema = new mongoose.Schema({
   course: { type: String, required: true },
   points: { type: Number, required: true }, 
   dueDate: { type: Date, required: false },
-  numberOfQuestions: { type: Number, default: function() { return this.questions.length; } },
+  availableDate: { type: Date, required: false },
+  numberOfQuestions: { type: Number, default: 0 }, 
   studentScore: { type: Number, required: false }, 
-  isPublished: { type: Boolean, default: false } 
+  isPublished: { type: Boolean, default: false }, 
+  questions: [questionSchema]
+});
+
+// Pre-save hook to update numberOfQuestions before saving
+quizSchema.pre('save', function(next) {
+  this.numberOfQuestions = this.questions.length;
+  next();
 });
 
 export default quizSchema;

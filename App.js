@@ -10,6 +10,7 @@ import CourseRoutes from "./Kanbas/Courses/routes.js";
 import UserRoutes from "./Kanbas/Users/routes.js";
 import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import AssignmentRoutes from "./Kanbas/Assignments/routes.js";
+import QuizRoutes from "./Kanbas/Quizzes/routes.js";
 
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/final-project";
 mongoose.connect(CONNECTION_STRING).then(() => console.log("MongoDB Connection made")).catch((err) => console.error("MongoDB connection error:", err));;
@@ -58,6 +59,7 @@ ModuleRoutes(app);
 CourseRoutes(app);
 AssignmentRoutes(app);
 UserRoutes(app);
+QuizRoutes(app);
 Lab5(app);
 
 const port = process.env.PORT || 4000;

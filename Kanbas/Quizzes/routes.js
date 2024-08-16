@@ -6,6 +6,7 @@ export default function QuizRoutes(app) {
     const findQuizzesByCourseId = async (req, res) => {
         console.log("Routes.js")
         const { cid } = req.params;
+        console.log(cid)
         try {
           const quizzes = await dao.findQuizzesByCourseId(cid);
           res.json(quizzes);

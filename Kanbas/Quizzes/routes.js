@@ -7,8 +7,6 @@ export default function QuizRoutes(app) {
         const { cid } = req.params;
         try {
             const quizzes = await dao.findQuizzesByCourseId(cid);
-            console.log("----------------")
-            console.log(quizzes)
             res.json(quizzes);
         } catch (err) {
             res.status(500).json({ error: err.message });
@@ -19,7 +17,6 @@ export default function QuizRoutes(app) {
         const { cid } = req.params;
         const quizData = req.body;
         try {
-            // Create the quiz with the provided data and course ID
             const newQuiz = await dao.createQuiz({ ...quizData, course: cid });
             res.status(201).json(newQuiz);
         } catch (err) {

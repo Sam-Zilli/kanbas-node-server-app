@@ -3,20 +3,12 @@ import Course from '../Courses/model.js';
 
 export const findQuizzesByCourseId = async (courseId) => {
   try {
-    console.log("in here!");
-    
-    // Find the course (to get course num) by its ID
     const course = await Course.findById(courseId);
-
-    console.log("Course is: ", course.number)
     
     if (!course) {
       throw new Error("Course not found");
     }
     
-    console.log(course);
-    
-    // Find quizzes associated with this course
     const quizzes = await Quiz.find({ courseId: course.number });
     
     return quizzes;

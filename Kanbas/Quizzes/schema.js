@@ -6,7 +6,7 @@ const questionSchema = new mongoose.Schema({
     enum: ["multiple_choice", "true_false", "short_answer", "fill_in_the_blank"], 
     default: "multiple_choice" 
   },
-  name: { type: String, required: true },
+  // name: { type: String, required: true },
   description: { type: String, required: false },
   options: { type: [String], required: function() { return this.type === "multiple_choice"; } }, 
   correctAnswer: { 
@@ -24,7 +24,7 @@ const quizSchema = new mongoose.Schema({
   availableDate: { type: Date, required: false },
   numberOfQuestions: { type: Number, default: 0 }, 
   studentScore: { type: Number, required: false }, 
-  isPublished: { type: Boolean, default: false }, 
+  published: { type: Boolean, default: false }, 
   questions: [questionSchema]
 });
 

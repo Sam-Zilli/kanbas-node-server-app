@@ -53,8 +53,6 @@ export const findQuizzesByCourseId = async (courseId) => {
   
   export const updateQuiz = async (qid, quizData) => {
     try {
-      console.log("dao.js updateQuiz")
-      console.log(quizData)
       const updatedQuiz= await Quiz.findByIdAndUpdate(qid, quizData, { new: true, runValidators: true });   
       if (!updatedQuiz) {
         throw new Error('Quiz not found');

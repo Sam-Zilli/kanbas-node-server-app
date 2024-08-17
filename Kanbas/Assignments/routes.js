@@ -22,7 +22,6 @@ export default function AssignmentRoutes(app) {
       course: cid,
       _id: new Date().getTime().toString(),
     };
-    // console.log(`Creating assignment for course ${cid}:`, newAssignment);
     db.assignments.push(newAssignment);
     res.status(201).send(newAssignment);
   });

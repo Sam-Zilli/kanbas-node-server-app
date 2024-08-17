@@ -53,8 +53,6 @@ export const findCourseById = async (id) => {
 
 // Create a new course
 export const createCourse = async (courseData) => {
-  console.log("+++++++++++++ In dao ++++++++++++++");
-  
   try {
     // Check if an _id is provided
     if (courseData._id) {
@@ -68,7 +66,6 @@ export const createCourse = async (courseData) => {
 
       // Update the existing course if it exists
       if (existingCourse) {
-        console.log("Course already exists. Updating the existing course...");
         return await Course.findByIdAndUpdate(courseData._id, courseData, { new: true });
       }
     }
@@ -77,11 +74,7 @@ export const createCourse = async (courseData) => {
     const { _id, ...courseToSave } = courseData;
 
     // Create a new course
-    console.log("Creating a new course...");
     const newCourse = new Course(courseToSave);
-    console.log("New Course:");
-    console.log(newCourse);
-    console.log("``````````````````````````````````````");
     return await newCourse.save();
     
   } catch (err) {

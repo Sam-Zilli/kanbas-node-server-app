@@ -7,7 +7,6 @@ export const findAllUsers = () => User.find();
 export const findUserById = (userId) => User.findById(userId);
 
 export const findUserByUsername = (username) => {
-  console.log("In findUserByUsername", username);
   return User.findOne({ username: username });
 };
 
@@ -15,7 +14,6 @@ export const findUserByCredentials = async (username, password) => {
   try {
     const user = await User.findOne({ username });
     if (user && user.password === password) {
-      //console.log("Returning a user: ", user)
       return user;
     }
     return null;
@@ -36,12 +34,8 @@ export const updateUser = async (userId, user) => {
     const updatedUser = await User.findById(userId).exec();
 
     if (!updatedUser) {
-      console.log('User not found');
       return;
     }
-
-    // Print all the courses of the user
-    console.log('Updated User Courses:', updatedUser.courses);
 
   } catch (err) {
     // Log any errors
@@ -74,7 +68,6 @@ export const addCourseToUser = async (userId, courseNumber) => {
     // Fetch the updated user to confirm
     const updatedUser = await User.findById(userId).exec();
     if (updatedUser) {
-      console.log('User Courses after addition:', updatedUser.courses);
     }
 
   } catch (err) {
@@ -95,7 +88,6 @@ export const removeCourseFromUser = async (userId, courseNumber) => {
     // Fetch the updated user to confirm
     const updatedUser = await User.findById(userId).exec();
     if (updatedUser) {
-      console.log('User Courses after removal:', updatedUser.courses);
     }
 
   } catch (err) {

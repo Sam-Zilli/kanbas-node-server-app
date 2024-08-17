@@ -30,13 +30,8 @@ export default function CourseRoutes(app) {
 
   // Create a new course
   const createCourse = async (req, res) => {
-    console.log("=============In create Course===================")
     try {
-      console.log("Course body: ")
-      console.log(req.body)
-      console.log("=============Before Dao call===================")
       const course = await dao.createCourse(req.body);
-      console.log("Course: ", course)
       res.status(201).json(course);
     } catch (error) {
       res.status(500).send({ message: 'Internal server error', error });

@@ -25,11 +25,9 @@ export default function QuizRoutes(app) {
     };
 
     const updateQuiz = async (req, res) => {
-        console.log("routes.js UPDATE QUIZ")
         const { cid, qid } = req.params;
         const updatedData = req.body;
         try {
-            console.log("routes.js updatequiz in try")
             const updatedQuiz = await dao.updateQuiz(qid, updatedData);
             if (!updatedQuiz) {
                 return res.status(404).json({ error: "Quiz not found" });

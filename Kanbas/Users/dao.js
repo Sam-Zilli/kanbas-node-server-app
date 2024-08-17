@@ -28,18 +28,29 @@ export const findUsersByRole = (role) => User.find({ role: role });
 export const updateUser = async (userId, user) => {
   try {
     // Update the user
-    await User.updateOne({ _id: userId }, { $set: user });
+    const result = await User.updateOne({ _id: userId }, { $set: user });
+
+    // Check if the update operation was successful
+    if (result.modifiedCount === 0) {
+      // No document was updated
+      return { success: false, message: 'User not found or no changes made' };
+    }
 
     // Fetch the updated user
     const updatedUser = await User.findById(userId).exec();
 
     if (!updatedUser) {
-      return;
+      // User was not found after the update
+      return { success: false, message: 'User not found after update' };
     }
+
+    // Return the updated user and success status
+    return { success: true, user: updatedUser };
 
   } catch (err) {
     // Log any errors
     console.error('Error updating user:', err);
+    return { success: false, message: 'Error updating user' };
   }
 };
 

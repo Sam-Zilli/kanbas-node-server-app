@@ -64,8 +64,21 @@ const findUserById = async (req, res) => {
     console.log(userId)
     console.log("Req.body: ")
     console.log(req.body)
-    const status = await dao.updateUser(userId, req.body);
-    res.json(status);
+
+    const updateStatus = await dao.updateUser(userId, req.body);
+
+    console.log("routes.js updateStatus: ", updateStatus)
+    if (!updateStatus) {
+      console.log("didnt work :(")
+      return res.status(404).json({ message: "User not found or update failed" });
+    }
+
+    // get the updated user
+    console.log("Updated User: ")
+    const updatedUser = await dao.findUserById(userId);
+    console.log(updatedUser)
+    // give upated user back to client
+    res.json(updatedUser);
   };
 
   

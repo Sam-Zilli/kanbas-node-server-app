@@ -25,6 +25,30 @@ export default function UserRoutes(app) {
     return;
   };
 
+  const findUsersByCourseId = async (req, res) => {
+    const { cid } = req.params;
+    console.log(cid)
+
+    // Find a way to get CourseNumber from cid I have
+
+    // Find users who have courseNumber in their courses
+    res.json([
+      {
+        "username": "iron_man",
+        "password": "stark123",
+        "firstName": "Tony",
+        "lastName": "Stark",
+        "email": "tony@stark.com",
+        "dob": "1970-05-29",
+        "role": "STUDENT",
+        "loginId": "001234561S",
+        "section": "S101",
+        "lastActivity": "2020-10-01",
+        "totalActivity": "10:21:32",
+        "courses": ["RS101", "RS102"] 
+      }])
+}
+
 
   const findUserById = async (req, res) => {
     const user = await dao.findUserById(req.params.userId);
@@ -92,6 +116,9 @@ export default function UserRoutes(app) {
     res.json(currentUser);
   };
 
+
+
+  app.get("/api/courses/:cid/users", findUsersByCourseId);
   app.post("/api/users", createUser);
   app.get("/api/users", findAllUsers);
   app.get("/api/users/:userId", findUserById);

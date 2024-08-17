@@ -1,4 +1,5 @@
 import * as dao from "./dao.js";
+import * as courseDao from "../Courses/dao.js"
 
 export default function UserRoutes(app) {
 
@@ -30,6 +31,8 @@ export default function UserRoutes(app) {
     console.log(cid)
 
     // Find a way to get CourseNumber from cid I have
+    const course = await courseDao.findCourseById(cid)
+    const courseNumber = course.number
 
     // Find users who have courseNumber in their courses
     res.json([

@@ -18,18 +18,17 @@ export const findUserByCredentials = async (username, password) => {
     }
     return null;
   } catch (error) {
-    //console.error("Error in findUserByCredentials:", error);
     throw error;
   }
 };
 
-export const findUsersByRole = (role) => User.find({ role: role }); // or just User.find({ role })
+export const findUsersByRole = (role) => User.find({ role: role });
 
 export const updateUser = (userId, user) =>
   User.updateOne({ _id: userId }, { $set: user });
 
 export const findUsersByPartialName = (partialName) => {
-  const regex = new RegExp(partialName, "i"); // 'i' makes it case-insensitive
+  const regex = new RegExp(partialName, "i"); 
   return User.find({
     $or: [{ firstName: { $regex: regex } }, { lastName: { $regex: regex } }],
   });

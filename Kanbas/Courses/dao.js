@@ -4,7 +4,6 @@ import Course from "./model.js"; // Import the Mongoose model
 export const findAllCourses = async () => {
   try {
     const courses = await Course.find();
-    console.log("courses dao.js findAllCourses: ", courses)
     return courses;
   } catch (err) {
     console.error('Error fetching courses:', err);

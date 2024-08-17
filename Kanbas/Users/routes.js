@@ -59,7 +59,11 @@ const findUserById = async (req, res) => {
   };
 
   const updateUser = async (req, res) => {
+    console.log("in update user")
     const { userId } = req.params;
+    console.log(userId)
+    console.log("Req.body: ")
+    console.log(req.body)
     const status = await dao.updateUser(userId, req.body);
     res.json(status);
   };
@@ -108,10 +112,12 @@ const findUserById = async (req, res) => {
 
 
     // New function to get courses for a user by username
-    const getUserCoursesByUsername = async (req, res) => {
-      const { username } = req.params;
+    const getUserCoursesByUserId = async (req, res) => {
+      console.log("routes.js getUserCoursesByUserId ")
+      const { userId } = req.params;
+      console.log("User Id: ", userId)
       try {
-        const user = await dao.findUserByUsername(username);
+        const user = await dao.findUserByUserId(userId);
         if (user) {
           res.json(user.courses);
         } else {
@@ -134,5 +140,5 @@ const findUserById = async (req, res) => {
   app.post("/api/users/signout", signout);
   app.post("/api/users/profile", profile);
 
-  app.get("/api/users/courses/:username", getUserCoursesByUsername);
+  app.get("/api/users/courses/:userId", getUserCoursesByUserId);
 }

@@ -6,8 +6,8 @@ export const findAllUsers = () => User.find();
 
 export const findUserById = (userId) => User.findById(userId);
 
-export const findUserByUsername = (username) => {
-  return User.findOne({ username: username });
+export const findUserByUserId = (userId) => {
+  return User.findOne({ _id: userId });
 };
 
 export const findUserByCredentials = async (username, password) => {

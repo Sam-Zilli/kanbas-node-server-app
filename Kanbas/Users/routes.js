@@ -28,7 +28,6 @@ export default function UserRoutes(app) {
 
   const findUsersByCourseId = async (req, res) => {
     const { cid } = req.params;
-    console.log(cid)
 
     // Find a way to get CourseNumber from cid I have
     const course = await courseDao.findCourseById(cid)
@@ -58,7 +57,6 @@ export default function UserRoutes(app) {
 
   
   const signup = async (req, res) => {
-    console.log("routes.js signup")
     const user = await dao.findUserByUsername(req.body.username);
     if (user) {
       res.status(400).json({ message: "Username already taken" });

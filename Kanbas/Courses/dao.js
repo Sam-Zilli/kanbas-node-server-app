@@ -4,6 +4,7 @@ import Course from "./model.js"; // Import the Mongoose model
 export const findAllCourses = async () => {
   try {
     const courses = await Course.find();
+    console.log("courses dao.js findAllCourses: ", courses)
     return courses;
   } catch (err) {
     console.error('Error fetching courses:', err);
@@ -25,22 +26,81 @@ export const findCourseById = async (id) => {
   }
 };
 
+// // Create a new course
+// export const createCourse = async (courseData) => {
+//   console.log("+++++++++++++In dao++++++++++++++")
+//   try {
+//     if (courseData._id) {
+//       console.log("There already a courseId?")
+//       const existingCourse = await Course.findById(courseData._id);
+//       if (existingCourse) {
+//         await Course.findByIdAndDelete(courseData._id);
+//       }
+//     }
+//     console.log("++++++Gonna create a new course now...+++++")
+//     const newCourse = new Course(courseData);
+//     console.log("New Course: ")
+//     console.log(newCourse)
+//     console.log("``````````````````````````````````````")
+//     return await newCourse.save();
+//   } catch (err) {
+//     console.error('Error creating course:', err);
+//     throw err;
+//   }
+// };
+
+
+
 // Create a new course
 export const createCourse = async (courseData) => {
+  console.log("+++++++++++++ In dao ++++++++++++++");
+  
   try {
+    // Check if an _id is provided
     if (courseData._id) {
+      // Validate the _id
+      if (!mongoose.Types.ObjectId.isValid(courseData._id)) {
+        throw new Error('Invalid course ID');
+      }
+
+      // Find existing course by ID
       const existingCourse = await Course.findById(courseData._id);
+
+      // Update the existing course if it exists
       if (existingCourse) {
-        await Course.findByIdAndDelete(courseData._id);
+        console.log("Course already exists. Updating the existing course...");
+        return await Course.findByIdAndUpdate(courseData._id, courseData, { new: true });
       }
     }
-    const newCourse = new Course(courseData);
+
+    // Remove _id from courseData if creating a new course
+    const { _id, ...courseToSave } = courseData;
+
+    // Create a new course
+    console.log("Creating a new course...");
+    const newCourse = new Course(courseToSave);
+    console.log("New Course:");
+    console.log(newCourse);
+    console.log("``````````````````````````````````````");
     return await newCourse.save();
+    
   } catch (err) {
+    // Log error and rethrow
     console.error('Error creating course:', err);
     throw err;
   }
 };
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Update a course by ID

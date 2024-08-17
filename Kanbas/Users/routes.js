@@ -51,6 +51,7 @@ export default function UserRoutes(app) {
 
   const updateUser = async (req, res) => {
     const { userId } = req.params;
+    console.log("In update user", userId);
     const status = await dao.updateUser(userId, req.body);
     res.json(status);
   };
@@ -104,6 +105,22 @@ export default function UserRoutes(app) {
   };
 
 
+    // New function to get courses for a user by username
+    const getUserCoursesByUsername = async (req, res) => {
+      console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+      const { username } = req.params;
+      try {
+        const user = await dao.findUserByUsername(username);
+        console.log("User fetched: ", user)
+        if (user) {
+          res.json(user.courses);
+        } else {
+          res.status(404).json({ message: "User not found" });
+        }
+      } catch (error) {
+        res.status(500).json({ message: "Server error" });
+      }
+    };
 
   app.get("/api/courses/:cid/users", findUsersByCourseId);
   app.post("/api/users", createUser);
@@ -116,4 +133,6 @@ export default function UserRoutes(app) {
   app.post("/api/users/signin", signin);
   app.post("/api/users/signout", signout);
   app.post("/api/users/profile", profile);
+
+  app.get("/api/users/courses/:username", getUserCoursesByUsername);
 }

@@ -6,8 +6,10 @@ export const findAllUsers = () => User.find();
 
 export const findUserById = (userId) => User.findById(userId);
 
-export const findUserByUsername = (username) =>
-  User.findOne({ username: username });
+export const findUserByUsername = (username) => {
+  console.log("In findUserByUsername", username);
+  return User.findOne({ username: username });
+};
 
 export const findUserByCredentials = async (username, password) => {
   try {
@@ -24,8 +26,28 @@ export const findUserByCredentials = async (username, password) => {
 
 export const findUsersByRole = (role) => User.find({ role: role });
 
-export const updateUser = (userId, user) =>
-  User.updateOne({ _id: userId }, { $set: user });
+
+export const updateUser = async (userId, user) => {
+  try {
+    // Update the user
+    await User.updateOne({ _id: userId }, { $set: user });
+
+    // Fetch the updated user
+    const updatedUser = await User.findById(userId).exec();
+
+    if (!updatedUser) {
+      console.log('User not found');
+      return;
+    }
+
+    // Print all the courses of the user
+    console.log('Updated User Courses:', updatedUser.courses);
+
+  } catch (err) {
+    // Log any errors
+    console.error('Error updating user:', err);
+  }
+};
 
 export const findUsersByPartialName = (partialName) => {
   const regex = new RegExp(partialName, "i"); 
@@ -38,4 +60,46 @@ export const deleteUser = (userId) => User.deleteOne({ _id: userId });
 
 export const findUsersByCourseNumber = (courseNumber) => {
   return User.find({ courses: courseNumber });
+};
+
+
+export const addCourseToUser = async (userId, courseNumber) => {
+  try {
+    // Add the course number to the user's courses array
+    await User.updateOne(
+      { _id: userId },
+      { $addToSet: { courses: courseNumber } } // $addToSet ensures no duplicates
+    );
+
+    // Fetch the updated user to confirm
+    const updatedUser = await User.findById(userId).exec();
+    if (updatedUser) {
+      console.log('User Courses after addition:', updatedUser.courses);
+    }
+
+  } catch (err) {
+    // Log any errors
+    console.error('Error adding course to user:', err);
+  }
+};
+
+
+export const removeCourseFromUser = async (userId, courseNumber) => {
+  try {
+    // Remove the course number from the user's courses array
+    await User.updateOne(
+      { _id: userId },
+      { $pull: { courses: courseNumber } } // $pull removes the specified value
+    );
+
+    // Fetch the updated user to confirm
+    const updatedUser = await User.findById(userId).exec();
+    if (updatedUser) {
+      console.log('User Courses after removal:', updatedUser.courses);
+    }
+
+  } catch (err) {
+    // Log any errors
+    console.error('Error removing course from user:', err);
+  }
 };

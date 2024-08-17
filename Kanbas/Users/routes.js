@@ -34,22 +34,25 @@ export default function UserRoutes(app) {
     const course = await courseDao.findCourseById(cid)
     const courseNumber = course.number
 
-    // Find users who have courseNumber in their courses
-    res.json([
-      {
-        "username": "iron_man",
-        "password": "stark123",
-        "firstName": "Tony",
-        "lastName": "Stark",
-        "email": "tony@stark.com",
-        "dob": "1970-05-29",
-        "role": "STUDENT",
-        "loginId": "001234561S",
-        "section": "S101",
-        "lastActivity": "2020-10-01",
-        "totalActivity": "10:21:32",
-        "courses": ["RS101", "RS102"] 
-      }])
+    const filteredUsers = await dao.findUsersByCourseNumber(courseNumber)
+    res.json(filteredUsers)
+
+    // // Find users who have courseNumber in their courses
+    // res.json([
+    //   {
+    //     "username": "iron_man",
+    //     "password": "stark123",
+    //     "firstName": "Tony",
+    //     "lastName": "Stark",
+    //     "email": "tony@stark.com",
+    //     "dob": "1970-05-29",
+    //     "role": "STUDENT",
+    //     "loginId": "001234561S",
+    //     "section": "S101",
+    //     "lastActivity": "2020-10-01",
+    //     "totalActivity": "10:21:32",
+    //     "courses": ["RS101", "RS102"] 
+    //   }])
 }
 
 

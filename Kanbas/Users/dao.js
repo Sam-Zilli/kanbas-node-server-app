@@ -6,11 +6,12 @@ export const findAllUsers = () => User.find();
 
 export const findUserById = (userId) => User.findById(userId);
 
-export const findUserByUsername = (username) => User.findOne({ username: username });
+export const findUserByUsername = (username) =>
+  User.findOne({ username: username });
 
 export const findUserByCredentials = async (username, password) => {
   try {
-    const user = await User.findOne({ username});
+    const user = await User.findOne({ username });
     if (user && user.password === password) {
       //console.log("Returning a user: ", user)
       return user;
@@ -24,7 +25,8 @@ export const findUserByCredentials = async (username, password) => {
 
 export const findUsersByRole = (role) => User.find({ role: role }); // or just User.find({ role })
 
-export const updateUser = (userId, user) => User.updateOne({ _id: userId }, { $set: user });
+export const updateUser = (userId, user) =>
+  User.updateOne({ _id: userId }, { $set: user });
 
 export const findUsersByPartialName = (partialName) => {
   const regex = new RegExp(partialName, "i"); // 'i' makes it case-insensitive
@@ -34,3 +36,7 @@ export const findUsersByPartialName = (partialName) => {
 };
 
 export const deleteUser = (userId) => User.deleteOne({ _id: userId });
+
+export const findUsersByCourseNumber = (courseNumber) => {
+  return User.find({ courses: courseNumber });
+};

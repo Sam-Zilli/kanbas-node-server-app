@@ -59,24 +59,15 @@ const findUserById = async (req, res) => {
   };
 
   const updateUser = async (req, res) => {
-    console.log("in update user")
     const { userId } = req.params;
-    console.log(userId)
-    console.log("Req.body: ")
-    console.log(req.body)
 
     const updateStatus = await dao.updateUser(userId, req.body);
-
-    console.log("routes.js updateStatus: ", updateStatus)
     if (!updateStatus) {
-      console.log("didnt work :(")
       return res.status(404).json({ message: "User not found or update failed" });
     }
 
     // get the updated user
-    console.log("Updated User: ")
     const updatedUser = await dao.findUserById(userId);
-    console.log(updatedUser)
     // give upated user back to client
     res.json(updatedUser);
   };
@@ -126,9 +117,7 @@ const findUserById = async (req, res) => {
 
     // New function to get courses for a user by username
     const getUserCoursesByUserId = async (req, res) => {
-      console.log("routes.js getUserCoursesByUserId ")
       const { userId } = req.params;
-      console.log("User Id: ", userId)
       try {
         const user = await dao.findUserByUserId(userId);
         if (user) {

@@ -52,8 +52,25 @@ export default function QuizRoutes(app) {
         }
     };
 
+    // New route to get a specific quiz
+    const getQuiz = async (req, res) => {
+        // console.log("routes.js getQuiz")
+        const { cid, qid } = req.params;
+        try {
+            const quiz = await dao.getQuiz(cid, qid);
+            if (!quiz) {
+                return res.status(404).json({ error: "Quiz not found" });
+            }
+            res.json(quiz);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    };
+
+    // Define routes
     app.get("/api/courses/:cid/quizzes", findQuizzesByCourseId);
     app.post("/api/courses/:cid/quizzes", createQuiz);
     app.put("/api/courses/:cid/quizzes/:qid", updateQuiz);
     app.delete("/api/courses/:cid/quizzes/:qid", deleteQuiz);
+    app.get("/api/courses/:cid/quizzes/:qid", getQuiz);
 }

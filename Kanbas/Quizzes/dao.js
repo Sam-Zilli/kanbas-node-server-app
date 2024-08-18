@@ -75,3 +75,15 @@ export const findQuizzesByCourseId = async (courseId) => {
       throw err;
     }
   };
+
+
+  export const getQuiz = async (cid, qid) => {
+    // console.log("dao.js getQuiz")
+    try {
+        const quiz = await Quiz.findOne({ _id: qid});
+        // console.log("Quiz: ", quiz)
+        return quiz;
+    } catch (err) {
+        throw new Error('Error fetching quiz: ' + err.message);
+    }
+};

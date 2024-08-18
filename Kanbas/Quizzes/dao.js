@@ -29,25 +29,30 @@ export const findQuizzesByCourseId = async (courseId) => {
     }
   };
 
-  export const createQuiz = async (quizData) => {
+  export const createQuiz = async (quizData, cid) => {
     try {
-        // Get the course that the quiz shoud belong to
-      const course = await Quiz.findById(Data.course);
-  
-        // If there's no course
-      if (!course) {
-        throw new Error('Course not found');
-      }
+        console.log("dao.js createQuiz");
+        console.log(cid); // Ensure cid is logged to verify it's received
 
-      const courseNumber = course.number;
-      quizData.course = courseNumber;
-      const newQuiz = new Quiz(quizData);
-      return await newQuiz.save();
+        // Get the course that the quiz should belong to
+        const course = await Course.findById(cid);
+        console.log("Course: ", course);
+
+        // If there's no course
+        if (!course) {
+            throw new Error('Course not found');
+        }
+
+        const courseNumber = course.number;
+        quizData.course = courseNumber; 
+        console.log("Course Number: ", courseNumber)
+        const newQuiz = new Quiz(quizData);
+        return await newQuiz.save();
     } catch (err) {
-      console.error('Error creating quiz', err);
-      throw err;
+        console.error('Error creating quiz:', err);
+        throw err;
     }
-  };
+};
   
   export const updateQuiz = async (qid, quizData) => {
     try {

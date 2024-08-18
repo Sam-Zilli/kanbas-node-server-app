@@ -14,16 +14,19 @@ export default function QuizRoutes(app) {
     };
 
     const createQuiz = async (req, res) => {
+        console.log("routes.js createQuiz");
         const { cid } = req.params;
         const quizData = req.body;
+        console.log("Cid: ", cid, "quizData: ", quizData);
         try {
-            const newQuiz = await dao.createQuiz({ ...quizData, course: cid });
+            // Pass quizData as is and cid separately
+            const newQuiz = await dao.createQuiz(quizData, cid);
             res.status(201).json(newQuiz);
         } catch (err) {
             res.status(500).json({ error: err.message });
         }
     };
-
+    
     const updateQuiz = async (req, res) => {
         const { cid, qid } = req.params;
         const updatedData = req.body;

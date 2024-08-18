@@ -68,6 +68,18 @@ export const findUsersByCourseNumber = (courseNumber) => {
 };
 
 
+export const findUserByUsername = async (username) => {
+  try {
+    // Find the user by username
+    const user = await User.findOne({ username });
+    return user;
+  } catch (error) {
+    console.error('Error finding user by username:', error);
+    throw new Error('Error finding user');
+  }
+};
+
+
 export const addCourseToUser = async (userId, courseNumber) => {
   try {
     // Add the course number to the user's courses array

@@ -74,7 +74,7 @@ const findUserById = async (req, res) => {
 
   
   const signup = async (req, res) => {
-    const user = await dao.findUserByUserId(req.body._id);
+    const user = await dao.findUserByUsername(req.body.username);
     if (user) {
       res.status(400).json({ message: "Username already taken" });
       return;
@@ -118,6 +118,7 @@ const findUserById = async (req, res) => {
     // New function to get courses for a user by username
     const getUserCoursesByUserId = async (req, res) => {
       const { userId } = req.params;
+
       try {
         const user = await dao.findUserByUserId(userId);
         if (user) {

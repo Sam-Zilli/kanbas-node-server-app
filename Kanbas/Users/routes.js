@@ -74,7 +74,7 @@ const findUserById = async (req, res) => {
 
   
   const signup = async (req, res) => {
-    const user = await dao.findUserByUsername(req.body.username);
+    const user = await dao.findUserByUserId(req.body._id);
     if (user) {
       res.status(400).json({ message: "Username already taken" });
       return;

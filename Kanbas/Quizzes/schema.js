@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
+// Define the question schema
 const questionSchema = new mongoose.Schema({
   type: { 
     type: String, 
@@ -12,9 +13,10 @@ const questionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Mixed, 
     required: true 
   },
-  points: { type: Number, required: true } 
+  points: { type: Number, required: true }  // Ensure points are defined here
 }, { _id: false }); 
 
+// Define the quiz schema
 const quizSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, required: false },
@@ -22,14 +24,29 @@ const quizSchema = new mongoose.Schema({
   points: { type: Number, default: 0 }, // Will be calculated
   dueDate: { type: Date, required: false },
   availableDate: { type: Date, required: false },
+  untilDate: { type: Date, required: false },
   numberOfQuestions: { type: Number, default: 0 }, 
   studentScore: { type: Number, required: false }, 
   published: { type: Boolean, default: false }, 
   type: {
     type: String,
     enum: ["Graded Quiz", "Practice Quiz", "Graded Survey", "Ungraded Survey"],
-    default: "Graded Quiz" // Default value
+    default: "Graded Quiz"
   },
+  assignmentGroup: {
+    type: String,
+    enum: ["Quizzes", "Exams", "Assignments", "Project"],
+    default: "Quizzes"
+  },
+  shuffleAnswers: { type: Boolean, default: true }, // Default Yes
+  timeLimit: { type: Number, default: 20 }, // Time limit in minutes
+  multipleAttempts: { type: Boolean, default: false }, // Default No
+  attempts: { type: Number, default: 1 }, // Default 1
+  showCorrectAnswers: { type: String, enum: ["Never", "AfterSubmission", "AfterDueDate"], default: "Never" }, // Default Never
+  accessCode: { type: String, default: "" },
+  oneQuestionAtATime: { type: Boolean, default: true }, // Default Yes
+  webcamRequired: { type: Boolean, default: false }, // Default No
+  lockQuestionsAfterAnswering: { type: Boolean, default: false }, // Default No
   questions: [questionSchema]
 });
 
@@ -37,7 +54,6 @@ const quizSchema = new mongoose.Schema({
 quizSchema.pre('save', function(next) {
   if (this.questions) {
     this.numberOfQuestions = this.questions.length;
-    // Calculate the total points by summing up points of each question
     this.points = this.questions.reduce((total, question) => total + (question.points || 0), 0);
   }
   next();

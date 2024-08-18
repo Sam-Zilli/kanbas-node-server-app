@@ -13,7 +13,7 @@ const questionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Mixed, 
     required: true 
   },
-  points: { type: Number, required: true }  // Ensure points are defined here
+  points: { type: Number, required: true }  
 }, { _id: false }); 
 
 // Define the quiz schema
@@ -26,7 +26,6 @@ const quizSchema = new mongoose.Schema({
   availableDate: { type: Date, required: false },
   untilDate: { type: Date, required: false },
   numberOfQuestions: { type: Number, default: 0 }, 
-  studentScore: { type: Number, required: false }, 
   published: { type: Boolean, default: false }, 
   type: {
     type: String,

@@ -8,9 +8,7 @@ export const findQuizzesByCourseId = async (courseId) => {
     if (!course) {
       throw new Error("Course not found");
     }
-    
-    const quizzes = await Quiz.find({ courseId: course.number });
-    
+    const quizzes = await Quiz.find({ course: course.number });
     return quizzes;
 
   } catch (err) {

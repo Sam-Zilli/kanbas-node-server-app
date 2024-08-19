@@ -3,6 +3,8 @@ import * as dao from "./dao.js";
 
 export default function QuizRoutes(app) {
 
+    
+
     const findQuizzesByCourseId = async (req, res) => {
         const { cid } = req.params;
         try {
@@ -57,10 +59,11 @@ export default function QuizRoutes(app) {
 
     // New route to get a specific quiz
     const getQuiz = async (req, res) => {
-        // console.log("routes.js getQuiz")
-        const { cid, qid } = req.params;
+        console.log("routes.js getQuiz")
+        const { qid } = req.params;
         try {
-            const quiz = await dao.getQuiz(cid, qid);
+            const quiz = await dao.findQuizById(qid);
+            console.log("Quiz: ", quiz)
             if (!quiz) {
                 return res.status(404).json({ error: "Quiz not found" });
             }

@@ -54,19 +54,31 @@ export const findQuizzesByCourseId = async (courseId) => {
     }
 };
   
-  export const updateQuiz = async (qid, quizData) => {
-    try {
-      const updatedQuiz= await Quiz.findByIdAndUpdate(qid, quizData, { new: true, runValidators: true });   
-      if (!updatedQuiz) {
-        throw new Error('Quiz not found');
-      }
-      return updatedQuiz;
-    } catch (err) {
-      console.error('Error updating quiz by ID:', err);
-      throw err;
+// Function to update a quiz and recalculate numberOfQuestions
+export const updateQuiz = async (qid, quizData) => {
+  try {
+    // Fetch the current quiz document
+    const quiz = await Quiz.findById(qid);
+    if (!quiz) {
+      throw new Error('Quiz not found');
     }
-  };
-  
+
+    // Update fields
+    Object.assign(quiz, quizData);
+
+    // Recalculate numberOfQuestions and points
+    quiz.numberOfQuestions = quiz.questions.length;
+    quiz.points = quiz.questions.reduce((total, question) => total + (question.points || 0), 0);
+
+    // Save the updated quiz document
+    const updatedQuiz = await quiz.save();
+    
+    return updatedQuiz;
+  } catch (err) {
+    console.error('Error updating quiz by ID:', err);
+    throw err;
+  }
+};
   export const deleteQuizById = async (id) => {
     try {
       const deletedQuiz = await Quiz.findByIdAndDelete(id);
